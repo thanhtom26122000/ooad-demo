@@ -22,12 +22,13 @@ apartmentRouter.post("/get-list-favorites", async (req, res) => {
         let user = await User.findById(decodedToken.id);
         let listFavo = [...user.listFavo]
         console.log(listFavo)
-        let result
+        let result = []
         if (listFavo.length > 0) {
-            result = await Apartment.find({ id: { $in: listFavo } })
+            // result = await Apartment.find({ id: { $in: listFavo } })
+            result = await Apartment.findById("609865d4dd968343448da43c");
+
             console.log("xxx resuilt :", result)
         }
-        console.log(result)
         return res.status(200).json(result).end()
     }
     return res.status(400).end()
@@ -186,6 +187,21 @@ apartmentRouter.post("/search-property", async (req, res) => {
     if (listApartments) {
         console.log("xxx listApartments", listApartments)
         return res.status(200).json(listApartments).end()
+    }
+    return res.status(400).end()
+})
+apartmentRouter.post("/adjust-apartment", async (req, res) => {
+    let apartment = await Apartment.findById(req.body.id);
+    if (apartment) {
+        return res.status(200).json(apartment).end();
+    } else {
+        return res.status(400).end()
+    }
+})
+apartmentRouter.post("/remove-apartment", async (req, res) => {
+    if (req.body.id) {
+        await Apartment.findByIdAndDelete(req.body.id);
+        return res.status(200).send("success").end()
     }
     return res.status(400).end()
 })
