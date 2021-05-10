@@ -40,7 +40,6 @@ class ConfigInput {
         "tabelListProperty": [
             { align: "left", label: "Phòng" },
             { align: "left", label: "Trạng thái" },
-            { align: "left", label: "Tình trạng" },
             { align: "left", label: "Giá" },
             { align: "center", label: "Hành động" },
         ]
@@ -66,8 +65,6 @@ class ConfigInput {
 
         ],
         "tabelListProperty": [
-            { align: "left", label: "typeRealEstate" },
-            { align: "left", label: "status" },
             { align: "left", label: "isApprove" },
             { align: "left", label: "price" },
         ]

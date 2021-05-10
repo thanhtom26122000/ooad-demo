@@ -3,7 +3,8 @@ const initState = {
     loading: false,
     error: null,
     listRealEstate: [],
-    property: {}
+    property: {},
+    idAdjust: ""
 }
 const realEstateReducer = (state = initState, action) => {
     switch (action.type) {
@@ -99,7 +100,24 @@ const realEstateReducer = (state = initState, action) => {
         case Types.ADMIN_REJECT_PROPERTY_FAILED: {
             return { ...state, loading: false, error: action.error }
         }
-
+        case Types.ADJUST_APARTMENT: {
+            return { ...state, loading: true }
+        }
+        case Types.ADJUST_APARTMENT_FAILED: {
+            return { ...state, error: action.error }
+        }
+        case Types.ADJUST_APARTMENT_SUCCESS: {
+            return { ...state, property: { ...action.property }, loading: false, error: null }
+        }
+        case Types.REMOVE_APARTMENT: {
+            return { ...state, loading: true }
+        }
+        case Types.REMOVE_APARTMENT_FAILED: {
+            return { ...state, error: action.error }
+        }
+        case Types.REMOVE_APARTMENT_SUCCESS: {
+            return { ...state, loading: false, error: null }
+        }
         default: return state
     }
 }

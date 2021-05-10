@@ -156,3 +156,38 @@ export const adminRejectPropertyFailed = (error) => {
         error: error
     }
 }
+export const adjustApartment = (id) => {
+    return {
+        type: Types.ADJUST_APARTMENT,
+        id: id
+    }
+}
+export const adjustApartmentSuccess = (property) => {
+    return {
+        type: Types.ADJUST_APARTMENT,
+        property: property
+    }
+}
+export const adjustApartmentFailed = (error) => {
+    return {
+        type: Types.ADJUST_APARTMENT_FAILED,
+        error: error
+    }
+}
+export const removeApartment = (id) => {
+    return {
+        type: Types.REMOVE_APARTMENT,
+        id: id
+    }
+}
+export const removeApartmentSuccess = () => {
+    return {
+        type: Types.REMOVE_APARTMENT_SUCCESS,
+    }
+}
+export const removeApartmentFailed = (error) => {
+    return {
+        type: Types.REMOVE_APARTMENT_FAILED,
+        error: error
+    }
+}

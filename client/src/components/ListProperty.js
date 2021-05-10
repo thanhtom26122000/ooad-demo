@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { getMyListProperty } from "../redux/actions/user";
 import CustomTable from "./CustomTable";
 import ConfigInput from "../ConfigInput"
+import { adjustApartment, removeApartment } from "../redux/actions/realEstate";
 const useStyles = makeStyles({
     textField: {
         "& .MuiOutlinedInput-root": {
@@ -20,7 +21,7 @@ const useStyles = makeStyles({
         borderRadius: "20px",
     }
 })
-const ListPropery = ({ getMyListProperty = () => { }, realEstateReducer }) => {
+const ListPropery = ({ getMyListProperty = () => { }, realEstateReducer, adjustApartment = () => { }, removeApartment = () => { } }) => {
     const classes = useStyles()
     useEffect(() => {
         getMyListProperty()
@@ -32,6 +33,9 @@ const ListPropery = ({ getMyListProperty = () => { }, realEstateReducer }) => {
             return el.isApprove === filter
         })
     }
+    let button = [{ label: "Sửa", disable: false, primary: "primary", click: (id) => adjustApartment(id) },
+    { label: "Xoá", disable: false, primary: "secondary", click: (id) => removeApartment(id) }]
+
 
     console.log("xxxx", realEstateReducer.listRealEstate)
     return (
@@ -51,7 +55,7 @@ const ListPropery = ({ getMyListProperty = () => { }, realEstateReducer }) => {
                     })}
                 </Select>
             </FormControl>
-            <CustomTable rows={filter >= 0 ? listRealEstate : realEstateReducer.listRealEstate} config="tabelListProperty"></CustomTable>
+            <CustomTable rows={filter >= 0 ? listRealEstate : realEstateReducer.listRealEstate} config="tabelListProperty" button={button}></CustomTable>
         </div>
     )
 }
@@ -62,7 +66,9 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        getMyListProperty: () => dispatch(getMyListProperty())
+        getMyListProperty: () => dispatch(getMyListProperty()),
+        adjustApartment: (id) => dispatch(adjustApartment(id)),
+        removeApartment: (id) => dispatch(removeApartment(id))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ListPropery)

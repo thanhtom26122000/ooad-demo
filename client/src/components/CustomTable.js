@@ -75,7 +75,6 @@ const useStyles = makeStyles({
 
 });
 const CustomTable = ({ button, rows, config }) => {
-    console.log(rows, "xxx test1")
     console.log("xxxx", config, "1234", ConfigInput.mapListHeadTable[config])
     const classes = useStyles();
     const theme = useTheme();
@@ -120,12 +119,15 @@ const CustomTable = ({ button, rows, config }) => {
                                 })}
                                 <TableCell align="center">
                                     {button ? button.map(ele => {
+                                        console.log((el.isApprove === 2 && ele.label === "Sửa") ? "okela" : "notokela")
                                         return (
                                             <Button
                                                 key={ele.label}
                                                 variant="contained"
                                                 color={ele.primary}
                                                 key={ele.label}
+                                                style={{ marginRight: "20px" }}
+                                                disabled={(el.isApprove === 2 && ele.label === "Sửa") ? true : false}
                                                 onClick={() => ele.click(el.id)}>{ele.label}</Button>
                                         )
                                     }) : null}
@@ -136,7 +138,7 @@ const CustomTable = ({ button, rows, config }) => {
 
                 </TableBody>
             </Table>
-        </TableContainer>
+        </TableContainer >
     );
 }
 export default CustomTable

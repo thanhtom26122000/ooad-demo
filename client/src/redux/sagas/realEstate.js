@@ -1,7 +1,7 @@
 import { call, put, take } from 'redux-saga/effects';
 import * as Types from "../actions/type";
 import { callApi } from "../../axios/index"
-import { addFavoritesFailed, addFavoritesSuccess, adminApprovePropertyFailed, adminApprovePropertySuccess, adminRejectAccountFailed, adminRejectAccountSuccess, adminRejectPropertyFailed, adminRejectPropertySuccess, getListFavoritesFailed, getListFavoritesSuccess, getListLandingPageFailed, getListLandingPageSuccess, getListRealEstateFailed, getListRealEstateSuccess, getMyListPropertyFailed, getMyListPropertySuccess, getPropertyFailed, getPropertySuccess, removeFavoritesFailed, removeFavoritesSuccess, searchPropertyFailed, searchPropertySuccess } from '../actions/action';
+import { addFavoritesFailed, addFavoritesSuccess, adjustApartmentFailed, adjustApartmentSuccess, adminApprovePropertyFailed, adminApprovePropertySuccess, adminRejectAccountFailed, adminRejectAccountSuccess, adminRejectPropertyFailed, adminRejectPropertySuccess, getListFavoritesFailed, getListFavoritesSuccess, getListLandingPageFailed, getListLandingPageSuccess, getListRealEstateFailed, getListRealEstateSuccess, getMyListPropertyFailed, getMyListPropertySuccess, getPropertyFailed, getPropertySuccess, removeApartmentFailed, removeApartmentSuccess, removeFavoritesFailed, removeFavoritesSuccess, searchPropertyFailed, searchPropertySuccess } from '../actions/action';
 function getListLandingPageApi() {
     return callApi({ url: "/api/apartment/get-list-landingpage", method: "get" })
 }
@@ -36,7 +36,12 @@ async function adminApprovePropertyApi(token, id) {
 function adminRejectPropertyApi(token, id) {
     return callApi({ url: "/api/apartment/admin-reject-property", token: token, checkAuth: true, data: { id: id } })
 }
-
+function adjustApartmentApi(id) {
+    return callApi({ url: "/api/apartment/adjust-apartment", checkAuth: false, data: { id: id } })
+}
+function removeApartmentApi(id) {
+    return callApi({ url: "/api/apartment/remove-apartment", checkAuth: false, data: { id: id } })
+}
 function* getListLandingPageSaga() {
     while (true) {
         try {
@@ -75,8 +80,10 @@ function* getListFavorites() {
         try {
             let action = yield take(Types.GET_LIST_FAVORITES);
             let token = localStorage.getItem("_user");
-            let response = yield call(getListFavoritesApi, token)
+            let response = yield call(getListFavoritesApi, token);
+            console.log("running outside")
             if (response) {
+                console.log("running inside")
                 yield put(getListFavoritesSuccess(response))
             }
         }
@@ -203,6 +210,40 @@ function* adminRejectPropertySaga() {
         }
     }
 }
+function* adjustApartmentSaga() {
+    while (true) {
+        try {
+            let action = yield take(Types.ADJUST_APARTMENT);
+            let id = action.id
+            if (id) {
+                let res = yield call(adjustApartmentApi, id);
+                if (res) {
+                    yield put(adjustApartmentSuccess(res))
+                }
+            }
+        }
+        catch (error) {
+            yield put(adjustApartmentFailed(error))
+        }
+    }
+}
+function* removeApartmentSaga() {
+    while (true) {
+        try {
+            let action = yield take(Types.REMOVE_APARTMENT);
+            let id = action.id
+            if (id) {
+                let res = yield call(removeApartmentApi, id);
+                if (res == "success") {
+                    yield put(removeApartmentSuccess())
+                }
+            }
+        }
+        catch (error) {
+            yield put(removeApartmentFailed(error))
+        }
+    }
+}
 export const realEstateSaga = [
     getListLandingPageSaga(),
     addFavorites(),
@@ -214,4 +255,6 @@ export const realEstateSaga = [
     removeFavorites(),
     adminApprovePropertySaga(),
     adminRejectPropertySaga(),
+    adjustApartmentSaga(),
+    removeApartmentSaga()
 ]
