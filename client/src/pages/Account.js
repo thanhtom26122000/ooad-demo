@@ -1,6 +1,6 @@
 import { Grid, useMediaQuery, useTheme } from "@material-ui/core";
 import React from "react";
-import { Route, Switch, useRouteMatch } from "react-router";
+import { Route, Switch, useHistory, useRouteMatch } from "react-router";
 import ControlTab from "../components/ControlTab";
 import Header from "../components/Header";
 import Profile from "../components/VerifyAccount";
@@ -16,6 +16,7 @@ import { setIsAuth } from "../redux/actions/auth";
 const Account = ({ userReducer, setIsAuth }) => {
     const { url } = useRouteMatch()
     const theme = useTheme();
+    const history = useHistory()
     const isMobile = useMediaQuery(theme.breakpoints.between(0, 780))
     // if (userReducer.loading) {
     //     return (
@@ -31,10 +32,13 @@ const Account = ({ userReducer, setIsAuth }) => {
                     <ControlTab image={userReducer.imagePath} typeAccount={userReducer.typeAccount} ></ControlTab>
                 </Grid>}
                 <Grid item xs={isMobile ? 12 : 10}>
-                    {((userReducer.role !== 2) && url === "/account/add-property") ? <AlertDialog role={userReducer.role} isVerify={false}></AlertDialog> : null}
+                    {((userReducer.role !== 2) && url === "/account/add-property") ? <AlertDialog
+                        description={"Bạn cần phải điền đầy đủ thông tin và đến công ty để xác nhận thông tin để sử dụng chức năng này!"}
+                        title={"Yêu cầu xác nhận tài khoản"} role={userReducer.role} isVerify={false}
+                        close={() => history.push("/account/verify-account")}></AlertDialog> : null}
                     {userReducer.typeAccount == 1 ? (
                         <Switch>
-                            <Route exact path="/account/verify-account" render={() => <Profile role={userReducer.role}></Profile>} >
+                            <Route exact path="/account/verify-account" render={() => <Profile status={userReducer.status} role={userReducer.role}></Profile>} >
                             </Route>
                             <Route exact path="/account/add-property" component={AddProperty}></Route>
                             <Route exact path="/account/favorites" component={Favorites}></Route>

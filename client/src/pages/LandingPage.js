@@ -49,7 +49,7 @@ const useStyles = makeStyles({
         }
     }
 })
-const LandingPage = ({ setIsAuth, auth, image, role }) => {
+const LandingPage = ({ setIsAuth, auth, image, typeAccount }) => {
     console.log("xx auth", auth, "image", image)
     const classes = useStyles();
     const history = useHistory()
@@ -133,7 +133,7 @@ const LandingPage = ({ setIsAuth, auth, image, role }) => {
                                     >
                                         <Paper >
                                             <List component="nav">
-                                                {role === Config.MEMBER_ACCOUNT ?
+                                                {typeAccount === Config.MEMBER_ACCOUNT ?
                                                     ConfigInput.listControlTabMember.map(el => {
                                                         return (
                                                             <ListItem button onClick={() => history.push(el.path)}>
@@ -171,7 +171,7 @@ const LandingPage = ({ setIsAuth, auth, image, role }) => {
                                             onClose={() => setOpenMobile(false)}
                                         >
                                             <List component="nav" style={{ width: "300px", height: "100%", backgroundColor: "#161d21" }}>
-                                                {role === Config.MEMBER_ACCOUNT ?
+                                                {typeAccount === Config.MEMBER_ACCOUNT ?
                                                     ConfigInput.listControlTabMember.map(el => {
                                                         return (
                                                             <>

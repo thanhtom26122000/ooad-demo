@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     }
 })
 const Header = ({ image, auth, typeAccount, setAuth }) => {
-    console.log("image :", image)
+    console.log("image :", typeAccount)
     const classes = useStyles();
     const history = useHistory()
     const [openSwipe, setOpenSwipe] = useState(false)
@@ -113,6 +113,7 @@ const Header = ({ image, auth, typeAccount, setAuth }) => {
                             <List component="nav">
                                 {typeAccount === Config.MEMBER_ACCOUNT ?
                                     ConfigInput.listControlTabMember.map(el => {
+                                        console.log("xxx path ", el.path)
                                         return (
                                             <ListItem key={el.name} button onClick={() => history.push(el.path)}>
                                                 <ListItemIcon>{el.icon}</ListItemIcon>

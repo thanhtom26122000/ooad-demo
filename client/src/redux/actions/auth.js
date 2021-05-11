@@ -15,6 +15,7 @@ export const setImagePathAndStatus = (object) => {
         type: Types.SET_IMAGE_PATH_AND_STATUS,
         imagePath: object.imagePath ? object.imagePath : "",
         role: object.role,
-        typeAccount: object.typeAccount
+        typeAccount: object.typeAccount,
+        status: object.status
     }
 }

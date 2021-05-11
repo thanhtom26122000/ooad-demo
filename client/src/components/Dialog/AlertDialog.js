@@ -13,13 +13,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialog({ openDialog, isVerify }) {
+export default function AlertDialog({ title, description, openDialog, isVerify, close = () => { } }) {
     const [open, setOpen] = useState(true)
     const history = useHistory()
     console.log("xxx open", open, "openDialog", openDialog)
     const handleClose = () => {
         setOpen(false);
-        history.push(isVerify ? "/account/favorites" : "/account/verify-account")
+        history.push("/account/verify-account");
     };
 
     return (
@@ -32,17 +32,17 @@ export default function AlertDialog({ openDialog, isVerify }) {
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle id="alert-dialog-slide-title">{isVerify ? "Yêu cầu trở thành người cho thuê" : "Xác nhận tài khoản"}</DialogTitle>
+                <DialogTitle id="alert-dialog-slide-title">{title}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        {isVerify ? "Yêu cầu của bạn đã được gửi đi vui lòng đợi chấp thuận" : "Bạn cần phải điền đầy đủ thông tin và đến công ty để xác nhận thông tin để sử dụng chức năng này!"}
+                        {description}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     {isVerify ? null : <Button onClick={handleClose} color="primary">
                         Huỷ bỏ
                     </Button>}
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={close ? close : handleClose()} color="primary">
                         Oke
                     </Button>
                 </DialogActions>

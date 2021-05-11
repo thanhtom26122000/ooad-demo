@@ -10,6 +10,7 @@ import { callApi } from "../axios";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import AlertDialog from "./Dialog/AlertDialog";
+import { useHistory } from "react-router";
 const useStyles = makeStyles({
     textField: {
         "& .MuiOutlinedInput-root": {
@@ -32,9 +33,11 @@ const useStyles = makeStyles({
         marginBottom: "32px",
     }
 })
-const Profile = ({ getUserInfo = () => { }, userReducer, role }) => {
+const Profile = ({ getUserInfo = () => { }, userReducer, role, status }) => {
+    console.log("xxx status ", status)
     const classes = useStyles();
     const theme = useTheme();
+    const history = useHistory();
     const isMobile = useMediaQuery(theme.breakpoints.between(0, 780));
     const [loading, setLoading] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
@@ -93,7 +96,7 @@ const Profile = ({ getUserInfo = () => { }, userReducer, role }) => {
 
     return (
         <div style={{ padding: isMobile ? "20px" : "20px 40px 0px 40px" }}>
-            {openDialog || role === 0 ? <AlertDialog isVerify={true}></AlertDialog> : null}
+            {openDialog || status === 1 ? <AlertDialog description={"Yêu cầu của bạn đã được gửi đi vui lòng đợi chấp thuận"} title={"Yêu cầu trở thành người cho thuê"} close={() => history.push("/")} isVerify={true}></AlertDialog> : null}
             <Modal show={loading}></Modal>
             <h2 style={{ fontWeight: "bold", fontSize: "40px" }}>Trở thành người cho thuê</h2>
             <form encType="multipart/form-data" onSubmit={(event) => handleUpdateProfile(event)} >
@@ -197,6 +200,7 @@ const Profile = ({ getUserInfo = () => { }, userReducer, role }) => {
                             className={classes.input}
                             id="button-file"
                             type="file"
+                            disabled={role === 2 ? true : false}
                             onChange={(event) => {
                                 setInput({
                                     ...input,
@@ -210,7 +214,7 @@ const Profile = ({ getUserInfo = () => { }, userReducer, role }) => {
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                             <img src="https://demo5.wpresidence.net/wp-content/themes/wpresidence/img/default_user.png" alt="avatar-3" style={{ marginBottom: "32px", width: "100%", height: "auto" }}></img>
                             <label htmlFor="button-file">
-                                <Button component="div" style={{ textTransform: "none", backgroundColor: "#ae8c63", color: "#fff", padding: "16px 24px", borderRadius: "10px", width: "100%" }}
+                                <Button disabled={role === 2 ? true : false} component="div" style={{ textTransform: "none", backgroundColor: role === 2 ? "rgba(0, 0, 0, 0.12)" : "#ae8c63", color: role === 2 ? "rgba(0, 0, 0, 0.26)" : "#fff", padding: "16px 24px", borderRadius: "10px", width: "100%" }}
                                     variant="contained" >Tải ảnh lên</Button>
                             </label>
                             {input.personImage ? <div style={{ margin: "20px 40px", display: "flex", flexDirection: "column" }}>{input.personImage.name}</div> : null}

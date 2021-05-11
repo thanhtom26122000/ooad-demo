@@ -38,6 +38,10 @@ const userUpgradeSchema = new mongoose.Schema({
         type: Number,
         require: true,
         default: Config.NOT_VERIFY
+    },
+    birthayday: {
+        type: Date,
+        require: true,
     }
 })
 

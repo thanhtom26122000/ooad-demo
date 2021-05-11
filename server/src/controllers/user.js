@@ -71,14 +71,14 @@ usersRouter.post("/check-auth", async (req, res) => {
     console.log(decodedToken)
     const user = await User.findById(decodedToken.id);
     const userUpgrade = await UserUpgrade.findOne({ userId: decodedToken.id })
-    console.log("xxx user", userUpgrade.personImagePath);
     if (user) {
         return res.status(200).json(
             {
                 message: "success",
                 typeAccount: user.typeAccount,
                 role: user.role,
-                imagePath: userUpgrade.personImagePath ? userUpgrade.personImagePath : "default_user_small.png"
+                status: userUpgrade ? userUpgrade.status : -1,
+                imagePath: userUpgrade ? userUpgrade.personImagePath : "default_user_small.png"
             }
         ).end()
     } else {
@@ -93,8 +93,23 @@ usersRouter.get("/user-info", async (req, res) => {
     }
     console.log(decodedToken)
     const user = await User.findById(decodedToken.id);
+    const userUpgrade = await UserUpgrade.findOne({ userId: decodedToken.id });
+    console.log("xxx userUpgrade", userUpgrade)
+    if (userUpgrade) {
+        return res.status(200).json({
+            firstName: userUpgrade.firstName,
+            lastName: userUpgrade.lastName,
+            phone: userUpgrade.phone,
+            cardId: userUpgrade.cardId,
+            birthday: userUpgrade.birthday,
+            address: userUpgrade.address,
+            email: user.email
+        }).end()
+    } else {
+        return res.status(200).json(user).end()
+
+    }
     console.log(user)
-    res.status(200).json(user).end()
 })
 usersRouter.post("/verify-account", [
 ], async (req, res) => {
@@ -169,8 +184,12 @@ usersRouter.post("/admin-approve-account", async (req, res) => {
     }
     let user = await User.findById(decodedToken.id)
     let typeAccount = user.typeAccount;
+    let userUpgrade = await UserUpgrade.findById(req.body.id);
+    console.log("upgrade", userUpgrade)
     if (typeAccount === Config.ADMIN_ACCOUNT) {
-        await User.findByIdAndUpdate(req.body.id, { role: Config.UPGRADED_ACCOUNT });
+        await User.findByIdAndUpdate(userUpgrade.userId, { role: Config.UPGRADED_ACCOUNT });
+        let userId = await User.findById(userUpgrade.userId);
+        console.log("xxx userId", userId)
         await UserUpgrade.findByIdAndUpdate(req.body.id, { status: Config.UPGRADED_ACCOUNT })
         return res.status(200).json("success").end()
     }

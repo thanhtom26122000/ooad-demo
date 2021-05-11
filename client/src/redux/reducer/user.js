@@ -6,7 +6,8 @@ const initState = {
     role: null,
     typeAccount: null,
     listAccount: [],
-    imagePath: null
+    imagePath: null,
+    status: -1
 }
 const userReducer = (state = initState, action) => {
     switch (action.type) {
@@ -20,7 +21,7 @@ const userReducer = (state = initState, action) => {
             return { ...state, error: action.error }
         }
         case Types.SET_IMAGE_PATH_AND_STATUS: {
-            return { ...state, imagePath: action.imagePath, loading: false, role: action.role, typeAccount: action.typeAccount }
+            return { ...state, imagePath: action.imagePath, loading: false, role: action.role, typeAccount: action.typeAccount, status: action.status }
         }
         case Types.GET_LIST_ACCOUNT: {
             return { ...state, loading: true }
