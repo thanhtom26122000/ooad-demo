@@ -1,6 +1,6 @@
 import { Card, CardActionArea, CardMedia, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, useMediaQuery, useTheme } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ConfigInput from "../ConfigInput";
 import ButtonCustom from "./ButtonCustom";
 import addFile from "../resources/images/add-file.svg";
@@ -13,6 +13,8 @@ import {
 } from "@material-ui/pickers";
 import Modal from "./Modal";
 import DialogSucces from "./Dialog/Dialog";
+import { updateApartment } from "../redux/actions/realEstate";
+import { connect } from "react-redux";
 const useStyles = makeStyles({
     textField: {
         "& .MuiOutlinedInput-root": {
@@ -29,7 +31,7 @@ const useStyles = makeStyles({
         borderRadius: "20px",
     }
 })
-const AddProperty = ({ }) => {
+const AddProperty = ({ property, updateApartment = () => { } }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.between(0, 780))
     const classes = useStyles()
@@ -50,9 +52,24 @@ const AddProperty = ({ }) => {
         title: "",
         description: "",
         addressDetail: "",
-        date: new Date().toLocaleDateString()
+        expiredDate: new Date().toLocaleDateString()
     })
-    console.log("xxxx propety", input)
+    useEffect(() => {
+        if (property) {
+            let temp = {}
+            for (let item in input) {
+                temp = {
+                    ...temp,
+                    [item]: property[item]
+                }
+
+            }
+            console.log("use effect ", temp, property)
+            setInput({ ...input, ...temp })
+        }
+
+    }, [])
+    console.log("xxx 123")
     const handleOnChange = (event, field, option) => {
         if (option === "number") {
             let number = convertNumber(event.target.value);
@@ -74,6 +91,7 @@ const AddProperty = ({ }) => {
     }
     const handleOnSubmit = async (event) => {
         setLoading(true);
+
         let form = new FormData()
         event.preventDefault()
         for (let item in input) {
@@ -93,15 +111,20 @@ const AddProperty = ({ }) => {
                 }
             }
         }
-        await callApi({ url: "/api/apartment/add-property", data: form, checkAuth: true, token: localStorage.getItem("_user") })
-            .then(res => {
-                setLoading(false)
-                setOpenDialog(true)
-            })
-            .catch(error => {
-                setLoading(false)
-                console.log("xxx 123", error.response.data)
-            })
+        if (property) {
+            updateApartment(property.id, input);
+        } else {
+            await callApi({ url: "/api/apartment/add-property", data: form, checkAuth: true, token: localStorage.getItem("_user") })
+                .then(res => {
+                    setLoading(false)
+                    setOpenDialog(true)
+                })
+                .catch(error => {
+                    setLoading(false)
+                    console.log("xxx 123", error.response.data)
+                })
+
+        }
 
 
     }
@@ -249,8 +272,9 @@ const AddProperty = ({ }) => {
                                             margin="normal"
                                             label="Hiện thị tới ngày"
                                             variant="inline"
-                                            value={input.date}
-                                            onChange={(date) => setInput({ ...input, date: date })}
+                                            disablePast={true}
+                                            value={input.expiredDate}
+                                            onChange={(date) => setInput({ ...input, expiredDate: date })}
                                             KeyboardButtonProps={{
                                                 'aria-label': 'change date',
                                             }}
@@ -299,4 +323,10 @@ const AddProperty = ({ }) => {
         </form >
     )
 }
-export default React.memo(AddProperty)
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateApartment: (id, property) => dispatch(updateApartment(id, property)),
+    }
+}
+export default connect(null, mapDispatchToProps)(AddProperty)

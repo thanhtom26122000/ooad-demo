@@ -86,7 +86,7 @@ const ListItems = ({ getListLandingPage = () => { }, realEstateReducer, addFavor
     }, [getListLandingPage, searchProperty])
     return (
         <Container className={classes.container} >
-            <h1 style={{ textAlign: "center", color: "#222222" }}>Một số bất động sản</h1>
+            <h1 style={{ textAlign: "center", color: "#222222" }}>Một số phòng trọ</h1>
             <Grid container spacing={6}>
                 {realEstateReducer.listRealEstate && realEstateReducer.listRealEstate.length > 0 ? realEstateReducer.listRealEstate.map(el => {
                     return (

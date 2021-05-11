@@ -8,7 +8,10 @@ const ControlTab = ({ image, typeAccount }) => {
     return (
         <div style={{ marginTop: "24px" }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <img src={image ? (Config.BASE_URL + image) : "https://demo5.wpresidence.net/wp-content/themes/wpresidence/img/default_user_small.png"} alt="avatar" alt="avatar-2" style={{ width: "60px", height: "60px", borderRadius: "50%" }}></img>
+                <img src={image ? (Config.BASE_URL + "/images/" + image) : "https://demo5.wpresidence.net/wp-content/themes/wpresidence/img/default_user_small.png"}
+                    alt="avatar" alt="avatar-2"
+                    style={{ width: "60px", height: "60px", borderRadius: "50%", objectFit: "cover" }}>
+                </img>
                 <div style={{ marginTop: "16px", fontSize: "14px", fontWeight: 500 }}>Chào mừng tro lai</div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "24px" }}>

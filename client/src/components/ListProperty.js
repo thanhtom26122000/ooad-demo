@@ -5,6 +5,7 @@ import { getMyListProperty } from "../redux/actions/user";
 import CustomTable from "./CustomTable";
 import ConfigInput from "../ConfigInput"
 import { adjustApartment, removeApartment } from "../redux/actions/realEstate";
+import AddProperty from "./AddProperty";
 const useStyles = makeStyles({
     textField: {
         "& .MuiOutlinedInput-root": {
@@ -35,8 +36,9 @@ const ListPropery = ({ getMyListProperty = () => { }, realEstateReducer, adjustA
     }
     let button = [{ label: "Sửa", disable: false, primary: "primary", click: (id) => adjustApartment(id) },
     { label: "Xoá", disable: false, primary: "secondary", click: (id) => removeApartment(id) }]
-
-
+    if (realEstateReducer.property.id) {
+        return (<AddProperty property={{ ...realEstateReducer.property }}></AddProperty>);
+    }
     console.log("xxxx", realEstateReducer.listRealEstate)
     return (
         <div style={{ padding: "20px 40px 0px 40px" }}>

@@ -1,7 +1,7 @@
 import { call, put, take } from 'redux-saga/effects';
 import * as Types from "../actions/type";
 import { callApi } from "../../axios/index"
-import { addFavoritesFailed, addFavoritesSuccess, adjustApartmentFailed, adjustApartmentSuccess, adminApprovePropertyFailed, adminApprovePropertySuccess, adminRejectAccountFailed, adminRejectAccountSuccess, adminRejectPropertyFailed, adminRejectPropertySuccess, getListFavoritesFailed, getListFavoritesSuccess, getListLandingPageFailed, getListLandingPageSuccess, getListRealEstateFailed, getListRealEstateSuccess, getMyListPropertyFailed, getMyListPropertySuccess, getPropertyFailed, getPropertySuccess, removeApartmentFailed, removeApartmentSuccess, removeFavoritesFailed, removeFavoritesSuccess, searchPropertyFailed, searchPropertySuccess } from '../actions/action';
+import { addFavoritesFailed, addFavoritesSuccess, adjustApartmentFailed, adjustApartmentSuccess, adminApprovePropertyFailed, adminApprovePropertySuccess, adminRejectAccountFailed, adminRejectAccountSuccess, adminRejectPropertyFailed, adminRejectPropertySuccess, getListFavoritesFailed, getListFavoritesSuccess, getListLandingPageFailed, getListLandingPageSuccess, getListRealEstateFailed, getListRealEstateSuccess, getMyListPropertyFailed, getMyListPropertySuccess, getPropertyFailed, getPropertySuccess, removeApartmentFailed, removeApartmentSuccess, removeFavoritesFailed, removeFavoritesSuccess, searchPropertyFailed, searchPropertySuccess, updateApartment, updateApartmentFailed, updateApartmentSuccess } from '../actions/action';
 function getListLandingPageApi() {
     return callApi({ url: "/api/apartment/get-list-landingpage", method: "get" })
 }
@@ -41,6 +41,9 @@ function adjustApartmentApi(id) {
 }
 function removeApartmentApi(id) {
     return callApi({ url: "/api/apartment/remove-apartment", checkAuth: false, data: { id: id } })
+}
+function updateApartmentApi(id, property) {
+    return callApi({ url: "/api/apartment/update-apartment", checkAuth: false, data: { id: id, property: property } })
 }
 function* getListLandingPageSaga() {
     while (true) {
@@ -244,6 +247,26 @@ function* removeApartmentSaga() {
         }
     }
 }
+function* updateApartmentSaga() {
+    while (true) {
+        try {
+            let action = yield take(Types.UPDATE_APARTMENT);
+            let id = action.id;
+            console.log("xxxx id ", action.id)
+            if (id) {
+                let res = yield call(updateApartmentApi, id, action.property);
+                console.log("res", res);
+                if (res === "success") {
+                    yield put(updateApartmentSuccess())
+                    window.location.reload()
+                }
+            }
+        }
+        catch (error) {
+            yield put(updateApartmentFailed(error))
+        }
+    }
+}
 export const realEstateSaga = [
     getListLandingPageSaga(),
     addFavorites(),
@@ -256,5 +279,6 @@ export const realEstateSaga = [
     adminApprovePropertySaga(),
     adminRejectPropertySaga(),
     adjustApartmentSaga(),
-    removeApartmentSaga()
+    removeApartmentSaga(),
+    updateApartmentSaga()
 ]

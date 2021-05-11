@@ -4,7 +4,6 @@ const initState = {
     error: null,
     listRealEstate: [],
     property: {},
-    idAdjust: ""
 }
 const realEstateReducer = (state = initState, action) => {
     switch (action.type) {
@@ -117,6 +116,15 @@ const realEstateReducer = (state = initState, action) => {
         }
         case Types.REMOVE_APARTMENT_SUCCESS: {
             return { ...state, loading: false, error: null }
+        }
+        case Types.UPDATE_APARTMENT: {
+            return { ...state, loading: true }
+        }
+        case Types.UPDATE_APARTMENT_SUCCESS: {
+            return { ...state, loading: false, property: {} }
+        }
+        case Types.UPDATE_APARTMENT_FAILED: {
+            return { ...state, loading: false, error: action.error }
         }
         default: return state
     }

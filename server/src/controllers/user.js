@@ -70,13 +70,15 @@ usersRouter.post("/check-auth", async (req, res) => {
     }
     console.log(decodedToken)
     const user = await User.findById(decodedToken.id);
-    console.log("xxx user", user);
+    const userUpgrade = await UserUpgrade.findOne({ userId: decodedToken.id })
+    console.log("xxx user", userUpgrade.personImagePath);
     if (user) {
         return res.status(200).json(
             {
                 message: "success",
                 typeAccount: user.typeAccount,
                 role: user.role,
+                imagePath: userUpgrade.personImagePath ? userUpgrade.personImagePath : "default_user_small.png"
             }
         ).end()
     } else {

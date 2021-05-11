@@ -6,6 +6,7 @@ const initState = {
     role: null,
     typeAccount: null,
     listAccount: [],
+    imagePath: null
 }
 const userReducer = (state = initState, action) => {
     switch (action.type) {

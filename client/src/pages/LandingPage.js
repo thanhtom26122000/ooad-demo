@@ -113,9 +113,9 @@ const LandingPage = ({ setIsAuth, auth, image, role }) => {
                         </div>
                         {auth && image ?
                             <>
-                                <img src={Config.BASE_URL + image}
+                                <img src={Config.BASE_URL + "/images/" + image}
                                     alt="avatar"
-                                    style={{ height: "45px", width: "45px", borderRadius: "50%" }}
+                                    style={{ height: "45px", width: "45px", borderRadius: "50%", objectFit: "cover" }}
                                     onClick={handleClick} />
                                 {!isMobile ? (
                                     <Popover

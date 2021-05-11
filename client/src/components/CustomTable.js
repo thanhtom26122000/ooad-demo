@@ -125,7 +125,6 @@ const CustomTable = ({ button, rows, config }) => {
                                                 key={ele.label}
                                                 variant="contained"
                                                 color={ele.primary}
-                                                key={ele.label}
                                                 style={{ marginRight: "20px" }}
                                                 disabled={(el.isApprove === 2 && ele.label === "Sửa") ? true : false}
                                                 onClick={() => ele.click(el.id)}>{ele.label}</Button>

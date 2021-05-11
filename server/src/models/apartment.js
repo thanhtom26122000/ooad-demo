@@ -75,6 +75,13 @@ const apartmentSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    expiredDate: {
+        type: Date,
+        require: true
+    },
+    note: {
+        type: String,
+    }
 })
 
 apartmentSchema.set('toJSON', {

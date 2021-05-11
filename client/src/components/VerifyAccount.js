@@ -189,7 +189,7 @@ const Profile = ({ getUserInfo = () => { }, userReducer, role }) => {
                                 </CardActionArea>
                             </Card>
                         </Grid>
-                        <ButtonCustom type="submit" >Update Profile</ButtonCustom>
+                        <ButtonCustom disabled={role === 2 ? true : false} type="submit" >Update Profile</ButtonCustom>
                     </Grid>
                     <Grid item xs={isMobile ? 12 : 3} style={{ backgroundColor: "#fff", marginLeft: "auto", marginRight: "auto", borderRadius: "20px", height: "100%", padding: "16px", marginTop: isMobile ? "16px" : "" }}>
                         <input

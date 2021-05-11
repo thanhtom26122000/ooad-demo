@@ -89,7 +89,8 @@ apartmentRouter.post("/add-property", [
             status: "Chưa được cho thuê",
             userId: decodedToken.id,
             isApprove: Config.WAIT_APPROVE,
-            createTime: new Date().getTime()
+            createTime: new Date().getTime(),
+            expiredDate: req.body.date
         }
         await new Apartment(apartment).save()
         return res.status(200).send("success").end()
@@ -191,6 +192,7 @@ apartmentRouter.post("/search-property", async (req, res) => {
     return res.status(400).end()
 })
 apartmentRouter.post("/adjust-apartment", async (req, res) => {
+    console.log("xxxx", req.body.id)
     let apartment = await Apartment.findById(req.body.id);
     if (apartment) {
         return res.status(200).json(apartment).end();
@@ -202,6 +204,14 @@ apartmentRouter.post("/remove-apartment", async (req, res) => {
     if (req.body.id) {
         await Apartment.findByIdAndDelete(req.body.id);
         return res.status(200).send("success").end()
+    }
+    return res.status(400).end()
+})
+apartmentRouter.post("/update-apartment", async (req, res) => {
+    if (req.body.id) {
+        await Apartment.findByIdAndUpdate(req.body.id, req.body.property);
+        return res.status(200).send("success").end()
+
     }
     return res.status(400).end()
 })

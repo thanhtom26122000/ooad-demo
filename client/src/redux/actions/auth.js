@@ -13,7 +13,7 @@ export const setIsAuth = (isAuth) => {
 export const setImagePathAndStatus = (object) => {
     return {
         type: Types.SET_IMAGE_PATH_AND_STATUS,
-        // imagePath: object.imagePath ? object.imagePath : "",
+        imagePath: object.imagePath ? object.imagePath : "",
         role: object.role,
         typeAccount: object.typeAccount
     }

@@ -92,7 +92,7 @@ const Header = ({ image, auth, typeAccount, setAuth }) => {
                         <span>Tìm kiếm</span>
                     </div>
                 </div>
-                {image && auth ? <img src={Config.BASE_URL + image} alt="avatar" style={{ width: "45px", height: "45px", borderRadius: "50%", border: "1px solid red" }} onClick={handleClick}></img>
+                {image && auth ? <img src={Config.BASE_URL + "/images/" + image} alt="avatar" style={{ width: "45px", height: "45px", borderRadius: "50%", border: "1px solid red", objectFit: "cover" }} onClick={handleClick}></img>
                     : <AccountCircleIcon style={{ cursor: "pointer", color: "#ae8c63" }} onClick={() => history.push("/sign-in")} />}
 
                 {!isMobile ? (

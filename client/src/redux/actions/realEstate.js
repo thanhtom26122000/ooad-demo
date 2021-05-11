@@ -164,7 +164,7 @@ export const adjustApartment = (id) => {
 }
 export const adjustApartmentSuccess = (property) => {
     return {
-        type: Types.ADJUST_APARTMENT,
+        type: Types.ADJUST_APARTMENT_SUCCESS,
         property: property
     }
 }
@@ -188,6 +188,24 @@ export const removeApartmentSuccess = () => {
 export const removeApartmentFailed = (error) => {
     return {
         type: Types.REMOVE_APARTMENT_FAILED,
+        error: error
+    }
+}
+export const updateApartment = (id, property) => {
+    return {
+        type: Types.UPDATE_APARTMENT,
+        id: id,
+        property: property
+    }
+}
+export const updateApartmentSuccess = () => {
+    return {
+        type: Types.UPDATE_APARTMENT_SUCCESS,
+    }
+}
+export const updateApartmentFailed = (error) => {
+    return {
+        type: Types.UPDATE_APARTMENT_FAILED,
         error: error
     }
 }

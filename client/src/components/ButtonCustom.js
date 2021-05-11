@@ -13,5 +13,5 @@ const MyButton = styled(Button)({
 });
 
 export default function ButtonCustom(props) {
-    return <MyButton variant="contained" type={props.type} onClick={props.click}>{props.children}</MyButton>;
+    return <MyButton variant="contained" disabled={props.disabled} type={props.type} onClick={props.click}>{props.children}</MyButton>;
 }
