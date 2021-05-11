@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getMyListProperty } from "../redux/actions/user";
 import CustomTable from "./CustomTable";
 import ConfigInput from "../ConfigInput"
-import { adjustApartment, removeApartment } from "../redux/actions/realEstate";
+import { adjustApartment, removeApartment, setPropertyNull } from "../redux/actions/realEstate";
 import AddProperty from "./AddProperty";
 const useStyles = makeStyles({
     textField: {
@@ -22,10 +22,11 @@ const useStyles = makeStyles({
         borderRadius: "20px",
     }
 })
-const ListPropery = ({ getMyListProperty = () => { }, realEstateReducer, adjustApartment = () => { }, removeApartment = () => { } }) => {
+const ListPropery = ({ getMyListProperty = () => { }, setPropertyNull = () => { }, realEstateReducer, adjustApartment = () => { }, removeApartment = () => { } }) => {
     const classes = useStyles()
     useEffect(() => {
-        getMyListProperty()
+        getMyListProperty();
+        setPropertyNull();
     }, [getMyListProperty]);
     const [filter, setFilter] = useState(-1);
     let listRealEstate = []
@@ -70,7 +71,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getMyListProperty: () => dispatch(getMyListProperty()),
         adjustApartment: (id) => dispatch(adjustApartment(id)),
-        removeApartment: (id) => dispatch(removeApartment(id))
+        removeApartment: (id) => dispatch(removeApartment(id)),
+        setPropertyNull: () => dispatch(setPropertyNull())
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ListPropery)

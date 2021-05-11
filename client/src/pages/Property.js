@@ -68,12 +68,12 @@ const useStyles = makeStyles({
 
     }
 })
-const Property = ({ realEstateReducer, getProperty = () => { }, auth, addFavorites }) => {
+const Property = ({ realEstateReducer, getProperty = () => { }, auth, addFavorites, image, typeAccount }) => {
     let params = useParams()
     let offset = params.id.lastIndexOf("-")
     let id = params.id.substring(offset + 1, params.id.length)
-    console.log("xxx offset", id)
     let property = realEstateReducer.property
+    console.log("xxxxx property.fullname", property.fullname)
     const classes = useStyles();
     useEffect(() => {
         getProperty(id)
@@ -87,7 +87,7 @@ const Property = ({ realEstateReducer, getProperty = () => { }, auth, addFavorit
     // console.log("price", convertNumber(property.price.toString()))
     return (
         <>
-            <Header></Header>
+            <Header image={image} auth={auth} typeAccount={typeAccount}></Header>
             {isMobile ? <SearchColumn></SearchColumn> : <Search></Search>}
             <Modal show={open}
                 image={property.imagePath ? property.imagePath[indexImage] : ""}
@@ -127,10 +127,6 @@ const Property = ({ realEstateReducer, getProperty = () => { }, auth, addFavorit
                     </div>
                     :
                     <>
-                        <div style={{ display: "flex" }}>
-                            <div style={{ background: "#f1bf7fd9", color: "#fff", marginRight: "8px", padding: "4px 8px" }}>{property.typeRealEstate}</div>
-                            <div style={{ background: "#f1bf7fd9", color: "#fff", padding: "4px 8px" }}>{property.status}</div>
-                        </div>
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <h1>{property.title}</h1>
                             <div style={{ marginLeft: "auto", }}>

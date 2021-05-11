@@ -36,7 +36,7 @@ const App = ({ checkIsLogIn = () => { }, authReducer, imagePath, typeAccount, se
                     <LandingPage setIsAuth={() => setIsAuth()} typeAccount={typeAccount} image={imagePath} auth={authReducer.isLogin}></LandingPage>
                 </Route>
                 <Route exact path="/property/:id" >
-                    <Property auth={authReducer.isLogin}></Property>
+                    <Property auth={authReducer.isLogin} image={imagePath} typeAccount={typeAccount}></Property>
                 </Route>
                 <PrivateRoute path="/account/:child" pathRedirect="/sign-in" component={Account} auth={authReducer.isLogin}></PrivateRoute>
                 <Route exact path="/advanced-search">

@@ -7,9 +7,7 @@ const User = require("../models/user");
 const { check, validationResult, body } = require("express-validator");
 const UserUpgrade = require("../models/userupgrade");
 apartmentRouter.get("/get-list-landingpage", async (req, res) => {
-    // let listApartment = await Apartment.find({ isApprove: Config.APPROVED }).sort({ createTime: -1 }).limit(9);
-    let listApartment = await Apartment.find({}).sort({ createTime: -1 }).limit(9);
-
+    let listApartment = await Apartment.find({ isApprove: Config.APPROVED }).sort({ createTime: -1 }).limit(9);
     return res.status(200).json(listApartment).end()
 })
 apartmentRouter.post("/get-list-favorites", async (req, res) => {
@@ -24,8 +22,8 @@ apartmentRouter.post("/get-list-favorites", async (req, res) => {
         console.log(listFavo)
         let result = []
         if (listFavo.length > 0) {
-            // result = await Apartment.find({ id: { $in: listFavo } })
-            result = await Apartment.findById("609865d4dd968343448da43c");
+            result = await Apartment.find({ _id: { $in: listFavo } })
+            // result = await Apartment.findById("609865d4dd968343448da43c");
 
             console.log("xxx resuilt :", result)
         }
@@ -99,11 +97,11 @@ apartmentRouter.post("/add-property", [
 apartmentRouter.post("/get-property", async (req, res) => {
     let id = req.body.id;
     let apartment = (await Apartment.findById(id)).toJSON();
-    let user = await UserUpgrade.find({ userId: apartment.userId });
-    console.log("xxxx user", user)
+    let user = await UserUpgrade.findOne({ userId: apartment.userId });
+    console.log("xxxx user", user.firstName)
     console.log("xxxx apartment", apartment)
 
-    if (Apartment) {
+    if (apartment) {
         return res.status(200).send({
             ...apartment,
             phone: user ? user.phone : "",

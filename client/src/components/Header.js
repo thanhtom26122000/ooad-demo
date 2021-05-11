@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     }
 })
 const Header = ({ image, auth, typeAccount, setAuth }) => {
-    console.log("image", typeAccount)
+    console.log("image :", image)
     const classes = useStyles();
     const history = useHistory()
     const [openSwipe, setOpenSwipe] = useState(false)

@@ -6,7 +6,7 @@ class ConfigInput {
     static listControlTabMember = [
         { path: "/account/verify-account", name: "Trở thành người cho thuê", icon: <AccountCircleOutlinedIcon /> },
         { path: "/account/add-property", name: "Cho thuê nhà", icon: <AddBoxOutlinedIcon /> },
-        { path: "/account/favorites", name: "Yêu thích", icon: <FavoriteBorderOutlinedIcon /> },
+        // { path: "/account/favorites", name: "Yêu thích", icon: <FavoriteBorderOutlinedIcon /> },
         { path: "/account/list-property", name: "Danh sách phòng", icon: <HomeOutlinedIcon></HomeOutlinedIcon> }
     ]
     static listControlTabAdmin = [
@@ -93,8 +93,6 @@ class ConfigInput {
         { label: "Diện tích:", value: "size" },
         { label: "Phòng tắm:", value: "bathroom" },
         { label: "Phòng ngủ:", value: "bedroom" },
-        { label: "Chung chủ:", value: "isPrivate" },
-        { label: "Phòng bếp:", value: "kitchenDetail" },
     ]
     static propertyDescriptionInput = [
         { label: "*Tiêu đề (Bắt buộc)", type: "text", nameState: "title" },

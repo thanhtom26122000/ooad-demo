@@ -58,6 +58,7 @@ import ButtonCustom from './ButtonCustom';
 import { Button, useMediaQuery } from "@material-ui/core"
 import ConfigInput from '../ConfigInput';
 import Config from '../Config';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles({
     table: {
@@ -75,9 +76,10 @@ const useStyles = makeStyles({
 
 });
 const CustomTable = ({ button, rows, config }) => {
-    console.log("xxxx", config, "1234", ConfigInput.mapListHeadTable[config])
+    console.log("xxxx", rows)
     const classes = useStyles();
     const theme = useTheme();
+    const history = useHistory();
     const isMobile = useMediaQuery(theme.breakpoints.between(0, 780))
     return (
         <TableContainer className={classes.tableContainer} component={Paper} style={{ overflowX: isMobile ? "auto" : "" }}>
@@ -94,49 +96,52 @@ const CustomTable = ({ button, rows, config }) => {
                         return (
                             <TableRow key={el.id} className={classes.tableCellHover} >
                                 {config === "tableAccount" ? null : <TableCell align="left" style={{ padding: "40px" }} >
-                                    <div style={{ display: "flex", alignItems: "center" }}>
-                                        <img src={Config.BASE_URL + el.imagePath[0]} style={{ height: "70px", width: "105px" }} alt={"img" + index}></img>
+                                    <div style={{ display: "flex", alignItems: "center" }} onClick={() => history.push("/property/property-id-" + el.id)}>
+                                        <img src={Config.BASE_URL + el.imagePath[0]} style={{ cursor: "pointer", height: "70px", width: "105px" }} alt={"img" + index}></img>
                                         <div style={{ display: "flex", flexDirection: "column", marginLeft: "16px" }}>
                                             <span style={{ fontSize: "16px", color: "#222222" }}>{el.title}</span>
                                             <span style={{ fontSize: "14px", color: "#808191" }}>{el.state}, {el.district}</span>
                                         </div>
                                     </div>
                                 </TableCell>}
-                                {ConfigInput.mapCellTable[config].map(cell => {
-                                    if (cell.label === "isApprove") {
+                                {
+                                    ConfigInput.mapCellTable[config].map(cell => {
+                                        if (cell.label === "isApprove") {
+                                            return (
+                                                <TableCell align={cell.align} key={cell.label}>
+                                                    <div style={{ display: "flex" }}>
+                                                        <div style={{ backgroundColor: Config.IS_APPROVE_COLOR[el[cell.label]], width: "20px", height: "20px", marginRight: "8px" }}></div>
+                                                        <span>{Config.IS_APPROVE[el[cell.label]]}</span>
+                                                    </div>
+                                                </TableCell>
+                                            )
+                                        }
                                         return (
-                                            <TableCell align={cell.align} key={cell.label}>
-                                                <div style={{ display: "flex" }}>
-                                                    <div style={{ backgroundColor: Config.IS_APPROVE_COLOR[el[cell.label]], width: "20px", height: "20px", marginRight: "8px" }}></div>
-                                                    <span>{Config.IS_APPROVE[el[cell.label]]}</span>
-                                                </div>
-                                            </TableCell>
+                                            <TableCell align={cell.align}>{el[cell.label]}</TableCell>
                                         )
-                                    }
-                                    return (
-                                        <TableCell align={cell.align}>{el[cell.label]}</TableCell>
-                                    )
-                                })}
-                                <TableCell align="center">
-                                    {button ? button.map(ele => {
-                                        console.log((el.isApprove === 2 && ele.label === "Sửa") ? "okela" : "notokela")
-                                        return (
-                                            <Button
-                                                key={ele.label}
-                                                variant="contained"
-                                                color={ele.primary}
-                                                style={{ marginRight: "20px" }}
-                                                disabled={(el.isApprove === 2 && ele.label === "Sửa") ? true : false}
-                                                onClick={() => ele.click(el.id)}>{ele.label}</Button>
-                                        )
-                                    }) : null}
+                                    })
+                                }
+                                < TableCell align="center" >
+                                    {
+                                        button ? button.map(ele => {
+                                            console.log((el.isApprove === 2 && ele.label === "Sửa") ? "okela" : "notokela")
+                                            return (
+                                                <Button
+                                                    key={ele.label}
+                                                    variant="contained"
+                                                    color={ele.primary}
+                                                    style={{ marginRight: "20px" }}
+                                                    disabled={(el.isApprove === 2 && ele.label === "Sửa") ? true : false}
+                                                    onClick={() => ele.click(el.id)}>{ele.label}</Button>
+                                            )
+                                        }) : null}
                                 </TableCell>
                             </TableRow>
                         )
                     }) : null}
 
                 </TableBody>
-            </Table>
+            </Table >
         </TableContainer >
     );
 }

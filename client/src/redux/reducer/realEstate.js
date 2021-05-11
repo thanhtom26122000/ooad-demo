@@ -126,6 +126,9 @@ const realEstateReducer = (state = initState, action) => {
         case Types.UPDATE_APARTMENT_FAILED: {
             return { ...state, loading: false, error: action.error }
         }
+        case Types.SET_PROPERTY_NULL: {
+            return { ...state, property: {} }
+        }
         default: return state
     }
 }

@@ -209,3 +209,8 @@ export const updateApartmentFailed = (error) => {
         error: error
     }
 }
+export const setPropertyNull = () => {
+    return {
+        type: Types.SET_PROPERTY_NULL,
+    }
+}
